@@ -7,7 +7,7 @@
 <h2>Вход</h2>
 {% if user.is_authenticated %}
 <p>вы уже выполнили вход</p>
-{% elif %}
+{% else %}
 <form method="post" >
     {% csrf_token %}
     {% bootstrap_form form layout='horizontal' %}
