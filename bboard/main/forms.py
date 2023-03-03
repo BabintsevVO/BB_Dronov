@@ -31,23 +31,23 @@ class RegisterUserForm(forms.ModelForm):
         password2 = self.cleaned_data['password2']
         if password1 and password2 and password1 != password2:
             errors = {
-                'password2': ValidationError('Введенные пароли не совпадают', code = 'password_mismatch')
+                'password2': ValidationError('Введенные пароли не совпадают', code='password_mismatch')
             }
             raise ValidationError(errors)
 
-        def save(self, commit=True):
-            user = super().save(commit=False)
-            user.set_password(self.cleaned_data['password1'])
-            user.is_active = False
-            user.is_activated = False
-            if commit:
-                user.save()
-            user_registered.send(RegisterUserForm, instance=user)
-            return user
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        user.is_active = False
+        user.is_activated = False
+        if commit:
+            user.save()
+        user_registered.send(RegisterUserForm, instance=user)
+        return user
 
-        class Meta:
-            model = AdvUser
-            fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'send_messages')
+    class Meta:
+        model = AdvUser
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'send_messages')
 
 
 
