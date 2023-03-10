@@ -4,9 +4,19 @@
 {% load static %}
 {% load bootstrap4 %}
 
-{% block content %}
-<h2>Последние 10 объявлений</h2>
+{% block title %} {{ rubric }} {% endblock %}
 
+{% block content %}
+<h2 class="mb-2">{{ rubric }}</h2>
+<div class="container-fluid mb-2">
+    <div class="row">
+        <div class="col">&nbsp;</div>
+        <form class="col-md-auto form-inline">
+            {% bootstrap_form form show_label=False %}
+            {% bootstrap_button content='Искать' button_type='submit' %}
+        </form>
+    </div>
+</div>
 {% if bbs %}
 <ul class="'list-unstyled">
     {% for bb in bbs %}
@@ -16,7 +26,7 @@
         {% if bb.image %}
         <img class="mr-3" src="{% thumbnail bb.image 'default' %}">
         {% else %}
-        <img class="mr-3"  src="{% static 'main/empty.jpg' %}">
+        <img class="mr-3" src="{% static 'main/empty.jpg' %}">
         {% endif %}
         </a>
         <div class="media-body">
@@ -28,8 +38,6 @@
     </li>
     {% endfor %}
 </ul>
-
+{% bootstrap_pagination page url=keyword %}
 {% endif %}
-
-
 {% endblock %}
